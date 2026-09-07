@@ -1691,3 +1691,9 @@ The Express `X-Powered-By` header is also disabled to reduce unnecessary technol
 ![Security Headers](docs/screenshots/07-security-headers.png)
 
 ---
+
+## Demonstration Video
+
+A demonstration video showing the HustleHub+ Part 1 backend, secure user registration, login with JWT generation, input validation and protected API route authentication is available at:
+
+**Video Link:** [HustleHub+ Part 1 Demonstration](https://youtu.be/7Yml1_xBfC4)
