@@ -1727,3 +1727,30 @@ For example, freelancer-only functionality uses:
 ```javascript
 authenticateToken,
 authorizeRoles(ROLES.FREELANCER)
+
+## Gig Management
+
+Part 2 introduces persistent marketplace Gig functionality using MongoDB.
+
+Freelancers can:
+
+- Create Gigs.
+- View their own Gigs.
+- Update their own Gigs.
+- Delete their own Gigs.
+- Activate or deactivate listings.
+
+Active Gigs can be browsed through the marketplace.
+
+### Gig Ownership
+
+Each Gig stores a MongoDB reference to the Freelancer who created it.
+
+Gig management operations use both Role-Based Access Control and ownership verification.
+
+A valid `FREELANCER` role alone does not permit modification of another Freelancer's Gig. Before update or delete operations are performed, HustleHub+ compares the authenticated user's MongoDB ID with the Gig's stored Freelancer ID.
+
+An ownership mismatch returns:
+
+```text
+403 Forbidden

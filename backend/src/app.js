@@ -8,6 +8,10 @@ const accessRoutes = require(
   "./routes/accessRoutes"
 );
 
+const gigRoutes = require(
+  "./routes/gigRoutes"
+);
+
 const {
   authRateLimiter
 } = require("./middleware/authRateLimiter");
@@ -80,6 +84,14 @@ app.use(
 app.use(
   "/api/access",
   accessRoutes
+);
+
+/*
+ * Gig marketplace and management API.
+ */
+app.use(
+  "/api/gigs",
+  gigRoutes
 );
 
 /*
