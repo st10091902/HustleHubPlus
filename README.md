@@ -1707,3 +1707,23 @@ User records are now stored in the `users` collection and contain the user's nam
 Plain-text passwords are never stored in MongoDB. The `passwordHash` field is configured with `select: false`, preventing it from being included in normal queries unless authentication logic explicitly requests it.
 
 MongoDB persistence also means registered user accounts remain available after the Node.js backend is restarted.
+
+## Role-Based Access Control
+
+Part 2 extends the JWT authentication implemented during Part 1 with Role-Based Access Control (RBAC).
+
+HustleHub+ currently recognises the following roles:
+
+- `CLIENT`
+- `FREELANCER`
+- `ADMIN`
+
+JWT authentication establishes the identity of the requester, while RBAC determines whether that authenticated user is permitted to perform the requested operation.
+
+The backend uses reusable `authorizeRoles()` middleware. This ensures that role restrictions are enforced server-side rather than relying only on frontend visibility.
+
+For example, freelancer-only functionality uses:
+
+```javascript
+authenticateToken,
+authorizeRoles(ROLES.FREELANCER)

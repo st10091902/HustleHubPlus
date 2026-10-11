@@ -1,9 +1,23 @@
+const User = require("../models/User");
+
 const {
   verifyToken
 } = require("../services/tokenService");
 
-const authenticateToken = (req, res, next) => {
-  const authorizationHeader = req.headers.authorization;
+/**
+ * Authenticate requests using a Bearer JWT.
+ *
+ * The JWT identifies the user, but the current user
+ * and role are retrieved from MongoDB so that
+ * authorisation decisions use current database data.
+ */
+const authenticateToken = async (
+  req,
+  res,
+  next
+) => {
+  const authorizationHeader =
+    req.headers.authorization;
 
   if (!authorizationHeader) {
     return res.status(401).json({
@@ -28,11 +42,29 @@ const authenticateToken = (req, res, next) => {
   const token = parts[1];
 
   try {
+    /*
+     * Verify signature, expiry, issuer and audience.
+     */
     const decoded = verifyToken(token);
 
+    /*
+     * Ensure the user still exists and retrieve
+     * their current role from MongoDB.
+     */
+    const user = await User.findById(decoded.sub);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Authenticated user no longer exists."
+      });
+    }
+
     req.user = {
-      id: decoded.sub,
-      role: decoded.role
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role
     };
 
     next();

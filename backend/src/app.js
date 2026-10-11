@@ -4,6 +4,10 @@ const cors = require("cors");
 
 const authRoutes = require("./routes/authRoutes");
 
+const accessRoutes = require(
+  "./routes/accessRoutes"
+);
+
 const {
   authRateLimiter
 } = require("./middleware/authRateLimiter");
@@ -68,6 +72,14 @@ app.use(
   "/api/auth",
   authRateLimiter,
   authRoutes
+);
+
+/*
+ * RBAC verification routes.
+ */
+app.use(
+  "/api/access",
+  accessRoutes
 );
 
 /*

@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+const {
+  ROLES
+} = require("../config/roles");
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -27,11 +31,7 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: [
-        "CLIENT",
-        "FREELANCER",
-        "ADMIN"
-      ],
+      enum: Object.values(ROLES),
       required: true
     }
   },

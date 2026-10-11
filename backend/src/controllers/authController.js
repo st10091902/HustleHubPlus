@@ -145,39 +145,20 @@ const login = async (req, res, next) => {
 };
 
 /**
- * Return the current authenticated user.
+ * Return information for the currently
+ * authenticated MongoDB user.
  */
-const getCurrentUser = async (req, res, next) => {
-  try {
-    /*
-     * Confirm that the user represented by the JWT
-     * still exists in MongoDB.
-     */
-    const user = await User.findById(
-      req.user.id
-    );
-
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "Authenticated user no longer exists."
-      });
+const getCurrentUser = (req, res) => {
+  return res.status(200).json({
+    success: true,
+    message: "Protected route accessed successfully.",
+    user: {
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email,
+      role: req.user.role
     }
-
-    return res.status(200).json({
-      success: true,
-      message: "Protected route accessed successfully.",
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        createdAt: user.createdAt
-      }
-    });
-  } catch (error) {
-    next(error);
-  }
+  });
 };
 
 module.exports = {
