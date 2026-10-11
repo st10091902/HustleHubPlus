@@ -12,6 +12,10 @@ const gigRoutes = require(
   "./routes/gigRoutes"
 );
 
+const bookingRoutes = require(
+  "./routes/bookingRoutes"
+);
+
 const {
   authRateLimiter
 } = require("./middleware/authRateLimiter");
@@ -92,6 +96,14 @@ app.use(
 app.use(
   "/api/gigs",
   gigRoutes
+);
+
+/*
+ * Booking API.
+ */
+app.use(
+  "/api/bookings",
+  bookingRoutes
 );
 
 /*

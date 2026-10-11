@@ -1727,7 +1727,7 @@ For example, freelancer-only functionality uses:
 ```javascript
 authenticateToken,
 authorizeRoles(ROLES.FREELANCER)
-
+```
 ## Gig Management
 
 Part 2 introduces persistent marketplace Gig functionality using MongoDB.
@@ -1754,3 +1754,57 @@ An ownership mismatch returns:
 
 ```text
 403 Forbidden
+```
+## Booking Management
+
+Part 2 allows authenticated Clients to create bookings for active marketplace Gigs.
+
+Booking creation is restricted to the `CLIENT` role using server-side Role-Based Access Control.
+
+### Secure Booking Creation
+
+Clients supply only the selected Gig identifier and optional service requirements.
+
+Sensitive booking information is not trusted from client-controlled input.
+
+The backend retrieves the selected Gig from MongoDB and derives:
+
+- The Freelancer from the Gig owner.
+- The booking amount from the Gig price.
+- The Gig title from the stored Gig.
+- The Client from the authenticated JWT user.
+
+This prevents a Client from manipulating the booking price or assigning the booking to an arbitrary Freelancer.
+
+Unexpected properties such as `amount`, `freelancer`, `status`, and `paymentStatus` are rejected by the strict Zod validation schema.
+
+### Simulated Payment
+
+Part 2 does not process real payment-card information.
+
+Successful bookings currently use a simulated confirmation state:
+
+```text
+Booking status: CONFIRMED
+Payment status: SIMULATED_CONFIRMED
+```
+
+No card number, CVV, bank-account information, or other payment credentials are collected.
+
+### Booking Access Control
+
+Clients may view only their own bookings.
+
+Freelancers may view bookings made for Gigs they own.
+
+Individual booking access is also protected at resource level. Only the Client or Freelancer participating in a Booking may retrieve it.
+
+An unrelated authenticated user receives:
+
+```text
+403 Forbidden
+```
+
+### Booking Rate Limiting
+
+Booking creation is protected by a dedicated rate limiter to reduce automated abuse of the booking endpoint.
