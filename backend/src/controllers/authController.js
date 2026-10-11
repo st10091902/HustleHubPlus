@@ -1,10 +1,6 @@
 const bcrypt = require("bcryptjs");
-const crypto = require("crypto");
 
-const {
-  findUserByEmail,
-  addUser
-} = require("../data/userStore");
+const User = require("../models/User");
 
 const {
   generateToken
@@ -22,7 +18,12 @@ const register = async (req, res, next) => {
       role
     } = req.validatedBody;
 
-    const existingUser = findUserByEmail(email);
+    /*
+     * Check whether the email address is already registered.
+     */
+    const existingUser = await User.findOne({
+      email
+    });
 
     if (existingUser) {
       return res.status(409).json({
@@ -31,19 +32,28 @@ const register = async (req, res, next) => {
       });
     }
 
-    const passwordHash = await bcrypt.hash(password, 12);
+    /*
+     * Hash the password before database storage.
+     */
+    const passwordHash = await bcrypt.hash(
+      password,
+      12
+    );
 
-    const user = {
-      id: crypto.randomUUID(),
+    /*
+     * Store the new user in MongoDB.
+     */
+    const user = await User.create({
       name,
       email,
       passwordHash,
-      role,
-      createdAt: new Date().toISOString()
-    };
+      role
+    });
 
-    addUser(user);
-
+    /*
+     * Never return either the password
+     * or password hash to the client.
+     */
     return res.status(201).json({
       success: true,
       message: "User registered successfully.",
@@ -56,6 +66,16 @@ const register = async (req, res, next) => {
       }
     });
   } catch (error) {
+    /*
+     * Protect against duplicate email race conditions.
+     */
+    if (error && error.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message: "An account with this email already exists."
+      });
+    }
+
     next(error);
   }
 };
@@ -70,10 +90,16 @@ const login = async (req, res, next) => {
       password
     } = req.validatedBody;
 
-    const user = findUserByEmail(email);
+    /*
+     * passwordHash has select:false in the User schema,
+     * so it must be explicitly requested for login.
+     */
+    const user = await User.findOne({
+      email
+    }).select("+passwordHash");
 
     /*
-     * Use the same generic message for an unknown email
+     * Use the same response for an unknown email
      * and an incorrect password.
      */
     if (!user) {
@@ -95,6 +121,9 @@ const login = async (req, res, next) => {
       });
     }
 
+    /*
+     * Generate a signed JWT after successful authentication.
+     */
     const token = generateToken(user);
 
     return res.status(200).json({
@@ -116,17 +145,39 @@ const login = async (req, res, next) => {
 };
 
 /**
- * Returns information from the authenticated user's token.
+ * Return the current authenticated user.
  */
-const getCurrentUser = (req, res) => {
-  return res.status(200).json({
-    success: true,
-    message: "Protected route accessed successfully.",
-    user: {
-      id: req.user.id,
-      role: req.user.role
+const getCurrentUser = async (req, res, next) => {
+  try {
+    /*
+     * Confirm that the user represented by the JWT
+     * still exists in MongoDB.
+     */
+    const user = await User.findById(
+      req.user.id
+    );
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Authenticated user no longer exists."
+      });
     }
-  });
+
+    return res.status(200).json({
+      success: true,
+      message: "Protected route accessed successfully.",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {

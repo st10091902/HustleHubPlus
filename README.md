@@ -1697,3 +1697,13 @@ The Express `X-Powered-By` header is also disabled to reduce unnecessary technol
 A demonstration video showing the HustleHub+ Part 1 backend, secure user registration, login with JWT generation, input validation and protected API route authentication is available at:
 
 **Video Link:** [HustleHub+ Part 1 Demonstration](https://youtu.be/7Yml1_xBfC4)
+
+## Part 2 MongoDB Integration
+
+Part 2 replaces the temporary in-memory user storage used during Part 1 with persistent MongoDB storage through Mongoose.
+
+User records are now stored in the `users` collection and contain the user's name, normalised email address, bcrypt password hash, role, and timestamps.
+
+Plain-text passwords are never stored in MongoDB. The `passwordHash` field is configured with `select: false`, preventing it from being included in normal queries unless authentication logic explicitly requests it.
+
+MongoDB persistence also means registered user accounts remain available after the Node.js backend is restarted.
