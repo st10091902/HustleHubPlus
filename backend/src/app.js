@@ -16,6 +16,10 @@ const bookingRoutes = require(
   "./routes/bookingRoutes"
 );
 
+const transactionRoutes = require(
+  "./routes/transactionRoutes"
+);
+
 const {
   authRateLimiter
 } = require("./middleware/authRateLimiter");
@@ -104,6 +108,14 @@ app.use(
 app.use(
   "/api/bookings",
   bookingRoutes
+);
+
+/*
+ * Financial Transaction API.
+ */
+app.use(
+  "/api/transactions",
+  transactionRoutes
 );
 
 /*

@@ -1808,3 +1808,67 @@ An unrelated authenticated user receives:
 ### Booking Rate Limiting
 
 Booking creation is protected by a dedicated rate limiter to reduce automated abuse of the booking endpoint.
+
+## Transactions and Freelancer Income
+
+Every successful Part 2 booking now automatically creates a corresponding financial Transaction.
+
+Booking creation and Transaction creation are performed inside the same MongoDB transaction. This ensures that the two records are committed together.
+
+If either database operation fails, the complete operation is rolled back.
+
+This prevents inconsistent states such as:
+
+```text
+Booking exists but financial Transaction is missing
+```
+
+### Transaction Data
+
+Financial Transactions contain:
+
+- A unique transaction reference.
+- Booking reference.
+- Gig reference.
+- Client reference.
+- Freelancer reference.
+- Gig title.
+- Confirmed amount.
+- Currency.
+- Transaction type.
+- Transaction status.
+- Simulated payment method.
+- Creation and update timestamps.
+
+The amount, Client, Freelancer and Gig are derived from trusted server-side and database information rather than user-controlled transaction input.
+
+### Simulated Payment Records
+
+HustleHub+ does not collect or process real card or banking information.
+
+Successful bookings generate:
+
+```text
+type: BOOKING_PAYMENT
+status: COMPLETED
+paymentMethod: SIMULATED
+currency: ZAR
+```
+
+### Freelancer Income
+
+Freelancer income is calculated from completed `BOOKING_PAYMENT` Transactions belonging to the authenticated Freelancer.
+
+The income endpoint returns the total completed income and number of completed transactions.
+
+Clients cannot access Freelancer income summaries.
+
+### Financial Access Control
+
+Clients can view their own transaction history.
+
+Freelancers can view Transactions generated from their own Gigs.
+
+An individual Transaction may only be accessed by the Client or Freelancer participating in that Transaction.
+
+Unrelated authenticated users receive `403 Forbidden`.
