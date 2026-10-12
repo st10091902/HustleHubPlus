@@ -36,3 +36,12 @@ coverage/
 # Operating system files
 .DS_Store
 Thumbs.db
+
+# Frontend dependencies
+frontend/node_modules/
+
+# Frontend production build
+frontend/dist/
+
+# Frontend local environment
+frontend/.env

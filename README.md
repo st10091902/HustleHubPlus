@@ -1972,3 +1972,13 @@ HTTPS
 ```
 
 No single mechanism is relied upon as the application's only security control.
+
+## React Frontend
+
+Part 2 introduces the React frontend for HustleHub+ using Vite.
+
+The frontend is served locally over HTTPS at:
+
+```text
+https://localhost:5173
+```
