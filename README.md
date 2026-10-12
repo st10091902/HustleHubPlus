@@ -2409,3 +2409,41 @@ The suite verifies controlled HTTP responses including:
 Rate-limit `429 Too Many Requests` testing is kept separate from the normal automated collection run to avoid deliberately locking test endpoints during repeated Newman execution.
 
 The same collection is executed automatically with Newman as part of Part 2 testing.
+
+## Newman API Test Execution
+
+The complete Part 2 Postman collection can be executed from the command line using Newman.
+
+From the `backend` directory:
+
+```bash
+npm run test:api
+```
+
+The command executes:
+
+```text
+postman/HustleHubPlus-Part2.postman_collection.json
+```
+
+against the local HTTPS Express API.
+
+The automated collection covers authentication, JWT validation, RBAC, Gig ownership, Bookings, Transactions, Freelancer income calculations and security controls.
+
+The local development command uses Newman's `--insecure` option because HustleHub+ uses a locally generated HTTPS development certificate. This option is intended only for the local test environment and does not disable HTTPS in the application.
+
+### Repeatable Test Data
+
+The collection generates unique Client and Freelancer accounts for each run using a timestamp-based test identifier. Runtime JWTs and MongoDB resource IDs are captured automatically and reused by later requests.
+
+This allows the complete collection to be executed repeatedly without manually preparing test data.
+
+### Run API Tests
+
+```bash
+cd backend
+npm install
+npm run test:api
+```
+
+A successful run should complete with zero failed assertions.

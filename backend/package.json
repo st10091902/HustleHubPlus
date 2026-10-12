@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "echo \"Tests will be implemented in a later stage\""
+    "test": "echo \"Tests will be implemented in a later stage\"",
+    "test:api": "newman run \"../postman/HustleHubPlus-Part2.postman_collection.json\" --insecure --reporters cli,json --reporter-json-export \"../docs/testing/newman-part2-report.json\""
   },
   "keywords": [
     "hustlehub",
@@ -30,6 +31,7 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "newman": "^6.2.3",
     "nodemon": "^3.1.14"
   }
 }

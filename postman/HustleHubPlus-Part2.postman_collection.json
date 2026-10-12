@@ -2576,7 +2576,7 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": ""
+      "value": "https://localhost:3000"
     },
     {
       "key": "runId",
@@ -2600,19 +2600,19 @@
     },
     {
       "key": "clientPassword",
-      "value": ""
+      "value": "Client#2026"
     },
     {
       "key": "client2Password",
-      "value": ""
+      "value": "SecondClient#2026"
     },
     {
       "key": "freelancerPassword",
-      "value": ""
+      "value": "Freelancer#2026"
     },
     {
       "key": "freelancer2Password",
-      "value": ""
+      "value": "SecondFreelancer#2026"
     },
     {
       "key": "clientToken",
