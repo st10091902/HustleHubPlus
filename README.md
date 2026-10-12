@@ -2143,3 +2143,66 @@ The public Marketplace exposes only active Gigs.
 The Freelancer management interface retrieves all Gigs belonging to the authenticated Freelancer, including inactive listings.
 
 This allows Freelancers to temporarily hide services from the Marketplace without deleting them.
+
+## Client Booking Workflow
+
+Authenticated Clients can create secure bookings directly from the React Marketplace.
+
+The Client selects an active Gig and supplies optional project requirements.
+
+The frontend submits only:
+
+```json
+{
+  "gigId": "...",
+  "requirements": "..."
+}
+```
+
+The React application does not submit the booking amount, Client ID, Freelancer ID, booking status, payment status, Transaction status, or payment method.
+
+### Server-Controlled Booking Information
+
+The Express backend retrieves the selected Gig from MongoDB and determines:
+
+- The Freelancer.
+- The booking amount.
+- The Gig title.
+- The Client from the authenticated JWT.
+- The booking status.
+- The simulated payment status.
+
+This prevents Clients from manipulating sensitive booking fields through the frontend.
+
+### Booking and Transaction Creation
+
+Every successful booking automatically creates a corresponding financial Transaction.
+
+Both records are created within the same MongoDB transaction so they are committed together or rolled back together.
+
+The React confirmation screen displays:
+
+- Booking status.
+- Confirmed amount.
+- Simulated payment status.
+- Transaction status.
+- Currency.
+- Transaction reference.
+
+No real card or banking information is collected.
+
+### Client Booking History
+
+Clients can view their own bookings through:
+
+```text
+GET /api/bookings/client
+```
+
+and individual booking details through:
+
+```text
+GET /api/bookings/:id
+```
+
+React restricts these pages to Client accounts, while the Express backend independently enforces JWT authentication, Role-Based Access Control and booking participation.

@@ -22,6 +22,9 @@ import GigDetailsPage from "./pages/GigDetailsPage";
 import FreelancerGigsPage from "./pages/FreelancerGigsPage";
 import CreateGigPage from "./pages/CreateGigPage";
 import EditGigPage from "./pages/EditGigPage";
+import BookGigPage from "./pages/BookGigPage";
+import ClientBookingsPage from "./pages/ClientBookingsPage";
+import ClientBookingDetailsPage from "./pages/ClientBookingDetailsPage";
 
 function App() {
   return (
@@ -98,6 +101,27 @@ function App() {
                 path="/client/dashboard"
                 element={
                   <ClientDashboardPage />
+                }
+              />
+
+              <Route
+                path="/marketplace/:id/book"
+                element={
+                  <BookGigPage />
+                }
+              />
+
+              <Route
+                path="/client/bookings"
+                element={
+                  <ClientBookingsPage />
+                }
+              />
+
+              <Route
+                path="/client/bookings/:id"
+                element={
+                  <ClientBookingDetailsPage />
                 }
               />
 

@@ -73,6 +73,16 @@ function MainLayout() {
                     My Gigs
                   </NavLink>
                 )}
+
+                {user.role ===
+                  "CLIENT" && (
+                  <NavLink
+                    to="/client/bookings"
+                  >
+                    My Bookings
+                  </NavLink>
+                )}
+                
                 <NavLink
                   to={
                     dashboardPath

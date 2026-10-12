@@ -55,7 +55,10 @@ function ClientDashboardPage() {
 
         </Link>
 
-        <article className="dashboard-card">
+        <Link
+          to="/client/bookings"
+          className="dashboard-card dashboard-card-link"
+        >
 
           <span className="dashboard-icon">
             📦
@@ -66,11 +69,11 @@ function ClientDashboardPage() {
           </h2>
 
           <p>
-            Your confirmed bookings
-            will be managed here.
+            Review services you have
+            booked through HustleHub+.
           </p>
 
-        </article>
+        </Link>
 
         <article className="dashboard-card">
 

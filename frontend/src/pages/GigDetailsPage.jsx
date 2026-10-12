@@ -311,21 +311,12 @@ function GigDetailsPage() {
           {isAuthenticated &&
             user.role ===
               "CLIENT" && (
-            <>
-              <div className="booking-coming-soon">
-                Client booking is
-                available in the
-                next frontend step.
-              </div>
-
-              <button
-                type="button"
-                className="button button-primary gig-purchase-button"
-                disabled
-              >
-                Book this Gig
-              </button>
-            </>
+            <Link
+              to={`/marketplace/${gig._id}/book`}
+              className="button button-primary gig-purchase-button"
+            >
+              Book this Gig
+            </Link>
           )}
 
           {isAuthenticated &&
