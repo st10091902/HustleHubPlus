@@ -6,10 +6,17 @@ import {
 
 import MainLayout from "./layouts/MainLayout";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+import RoleRoute from "./components/RoleRoute";
+import DashboardRedirect from "./components/DashboardRedirect";
+
 import HomePage from "./pages/HomePage";
 import MarketplacePage from "./pages/MarketplacePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ClientDashboardPage from "./pages/ClientDashboardPage";
+import FreelancerDashboardPage from "./pages/FreelancerDashboardPage";
+import ForbiddenPage from "./pages/ForbiddenPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
@@ -45,6 +52,66 @@ function App() {
               <RegisterPage />
             }
           />
+
+          <Route
+            path="/forbidden"
+            element={
+              <ForbiddenPage />
+            }
+          />
+
+          <Route
+            element={
+              <ProtectedRoute />
+            }
+          >
+
+            <Route
+              path="/dashboard"
+              element={
+                <DashboardRedirect />
+              }
+            />
+
+            <Route
+              element={
+                <RoleRoute
+                  allowedRoles={[
+                    "CLIENT"
+                  ]}
+                />
+              }
+            >
+
+              <Route
+                path="/client/dashboard"
+                element={
+                  <ClientDashboardPage />
+                }
+              />
+
+            </Route>
+
+            <Route
+              element={
+                <RoleRoute
+                  allowedRoles={[
+                    "FREELANCER"
+                  ]}
+                />
+              }
+            >
+
+              <Route
+                path="/freelancer/dashboard"
+                element={
+                  <FreelancerDashboardPage />
+                }
+              />
+
+            </Route>
+
+          </Route>
 
           <Route
             path="*"

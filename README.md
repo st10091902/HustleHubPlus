@@ -1982,3 +1982,74 @@ The frontend is served locally over HTTPS at:
 ```text
 https://localhost:5173
 ```
+
+## Frontend Authentication
+
+Part 2 connects the React frontend to the MongoDB-backed authentication API.
+
+Users can register as either:
+
+- `CLIENT`
+- `FREELANCER`
+
+Administrator registration remains unavailable through the public interface.
+
+### Login
+
+Successful login returns a signed JWT from the Express API.
+
+The frontend stores the active token in browser `sessionStorage` under:
+
+```text
+hustlehub_token
+```
+
+The token is removed when the user explicitly logs out and is naturally scoped to the browser session.
+
+Passwords, password hashes, database credentials and JWT signing secrets are never stored by the React application.
+
+### Session Restoration
+
+When the React application reloads and a JWT exists, the frontend calls:
+
+```text
+GET /api/auth/me
+```
+
+The backend verifies the token and retrieves the current MongoDB user.
+
+This avoids relying solely on user or role information cached by the browser.
+
+### Protected Frontend Routes
+
+React includes protected routes for authenticated users and separate role-specific routes for Clients and Freelancers.
+
+For example:
+
+```text
+/client/dashboard
+```
+
+requires the `CLIENT` role, while:
+
+```text
+/freelancer/dashboard
+```
+
+requires the `FREELANCER` role.
+
+Frontend route protection improves navigation and user experience but is not treated as the security boundary. The Express API independently enforces JWT authentication, Role-Based Access Control and resource ownership for every protected backend operation.
+
+### Client-Side Validation
+
+Registration and login forms provide immediate client-side validation for usability.
+
+However, all requests are independently validated by the Express backend because browser-side validation can be bypassed.
+
+### JWT Storage Trade-Off
+
+Part 2 uses `sessionStorage` to integrate with the existing Bearer-token authentication architecture.
+
+Unlike `localStorage`, the token does not persist indefinitely across browser sessions. However, `sessionStorage` remains accessible to JavaScript and therefore depends on strong XSS controls.
+
+HustleHub+ reduces this risk using backend HTML sanitisation, React's normal JSX output escaping, a restrictive security design, and by avoiding `dangerouslySetInnerHTML` for user-controlled content.

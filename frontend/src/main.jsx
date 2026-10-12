@@ -8,12 +8,22 @@ import {
 
 import App from "./App";
 
+import {
+  AuthProvider
+} from "./context/AuthContext";
+
 import "./styles/global.css";
 
 createRoot(
-  document.getElementById("root")
+  document.getElementById(
+    "root"
+  )
 ).render(
   <StrictMode>
-    <App />
+
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+
   </StrictMode>
 );

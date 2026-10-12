@@ -1,13 +1,45 @@
 import {
   NavLink,
-  Outlet
+  Outlet,
+  useNavigate
 } from "react-router-dom";
 
+import {
+  useAuth
+} from "../context/AuthContext";
+
 function MainLayout() {
+  const {
+    user,
+    isAuthenticated,
+    logout
+  } = useAuth();
+
+  const navigate =
+    useNavigate();
+
+  const handleLogout = () => {
+    logout();
+
+    navigate(
+      "/",
+      {
+        replace: true
+      }
+    );
+  };
+
+  const dashboardPath =
+    user?.role ===
+    "FREELANCER"
+      ? "/freelancer/dashboard"
+      : "/client/dashboard";
+
   return (
     <div className="app-shell">
 
       <header className="navbar">
+
         <div className="navbar-inner">
 
           <NavLink
@@ -31,22 +63,53 @@ function MainLayout() {
               Marketplace
             </NavLink>
 
-            <NavLink
-              to="/login"
-            >
-              Login
-            </NavLink>
+            {isAuthenticated ? (
+              <>
+                <NavLink
+                  to={
+                    dashboardPath
+                  }
+                >
+                  Dashboard
+                </NavLink>
 
-            <NavLink
-              to="/register"
-              className="nav-button"
-            >
-              Get Started
-            </NavLink>
+                <span
+                  className="nav-user"
+                >
+                  {user.name}
+                </span>
+
+                <button
+                  type="button"
+                  className="nav-logout"
+                  onClick={
+                    handleLogout
+                  }
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                >
+                  Login
+                </NavLink>
+
+                <NavLink
+                  to="/register"
+                  className="nav-button"
+                >
+                  Get Started
+                </NavLink>
+              </>
+            )}
 
           </nav>
 
         </div>
+
       </header>
 
       <main className="main-content">
