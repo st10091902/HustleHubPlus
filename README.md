@@ -2336,3 +2336,76 @@ The production frontend can also be verified with:
 ```bash
 npm run build
 ```
+
+## Part 2 API Testing
+
+HustleHub+ includes an expanded Postman collection covering the complete Part 2 backend.
+
+The collection is located at:
+
+```text
+postman/HustleHubPlus-Part2.postman_collection.json
+```
+
+### Automated Test Data
+
+The collection generates a unique test-run identifier at the start of each execution.
+
+Fresh Client and Freelancer email addresses are generated using this identifier so the collection can be executed repeatedly without duplicate-account conflicts.
+
+JWTs and database resource identifiers are captured automatically during the run and reused by later requests.
+
+### API Coverage
+
+The Postman collection tests:
+
+- API health.
+- Client registration.
+- Freelancer registration.
+- Duplicate account handling.
+- Public Administrator-registration rejection.
+- Valid and invalid login.
+- JWT authentication.
+- Role-Based Access Control.
+- Freelancer Gig creation.
+- Gig ownership.
+- Gig updating.
+- Gig deletion.
+- Active and inactive listings.
+- Client booking creation.
+- Automatic Transaction creation.
+- Booking ownership.
+- Client Transaction history.
+- Freelancer Transaction history.
+- Freelancer income calculations.
+- Estimated tax calculations.
+- Financial access control.
+- NoSQL injection attempts.
+- Unsafe object structures.
+- XSS-style input sanitisation.
+- Mass-assignment attempts.
+- Invalid JWT handling.
+- Oversized request rejection.
+- JSON Content-Type enforcement.
+- HTTP security headers.
+- CORS configuration.
+
+### Expected Security Responses
+
+The suite verifies controlled HTTP responses including:
+
+```text
+200 OK
+201 Created
+400 Bad Request
+401 Unauthorized
+403 Forbidden
+404 Not Found
+409 Conflict
+413 Payload Too Large
+415 Unsupported Media Type
+```
+
+Rate-limit `429 Too Many Requests` testing is kept separate from the normal automated collection run to avoid deliberately locking test endpoints during repeated Newman execution.
+
+The same collection is executed automatically with Newman as part of Part 2 testing.
