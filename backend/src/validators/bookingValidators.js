@@ -1,21 +1,37 @@
 const { z } = require("zod");
 
-const createBookingSchema = z
-  .object({
-    gigId: z
-      .string()
-      .trim()
-      .min(1, "Gig ID is required."),
+const sanitizePlainText = require(
+  "../utils/sanitizePlainText"
+);
 
-    requirements: z
+const requirementsSchema =
+  z.preprocess(
+    (value) =>
+      sanitizePlainText(value),
+
+    z
       .string()
       .trim()
       .max(
         1000,
         "Requirements may not exceed 1000 characters."
       )
-      .optional()
-      .default("")
+  );
+
+const createBookingSchema = z
+  .object({
+    gigId: z
+      .string()
+      .trim()
+      .min(
+        1,
+        "Gig ID is required."
+      ),
+
+    requirements:
+      requirementsSchema
+        .optional()
+        .default("")
   })
   .strict();
 

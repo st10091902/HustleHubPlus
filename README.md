@@ -1872,3 +1872,103 @@ Freelancers can view Transactions generated from their own Gigs.
 An individual Transaction may only be accessed by the Client or Freelancer participating in that Transaction.
 
 Unrelated authenticated users receive `403 Forbidden`.
+
+## Part 2 Security Hardening
+
+Part 2 expands the security controls introduced during Part 1 to protect the full marketplace and MongoDB-backed application.
+
+### Input Sanitisation
+
+User-controlled display text such as names, Gig titles, descriptions, categories and Booking requirements is converted to plain text before storage.
+
+HTML tags and attributes are removed because HustleHub+ does not require users to submit executable HTML content.
+
+Passwords are not sanitised or modified before hashing because altering password input would change the user's credential.
+
+### NoSQL Injection Defence
+
+HustleHub+ rejects request object keys associated with MongoDB operators or unsafe object structures, including keys beginning with `$`, dotted keys, and prototype-related properties.
+
+The application also avoids passing complete request bodies directly into MongoDB queries.
+
+Queries are constructed using explicitly selected and validated fields.
+
+Strict Zod schemas provide an additional defensive layer by rejecting unexpected input structures.
+
+### Mass Assignment Protection
+
+Sensitive properties are derived server-side and cannot be directly controlled by API users.
+
+Examples include:
+
+- Gig ownership.
+- Booking Client.
+- Booking Freelancer.
+- Booking amount.
+- Booking status.
+- Payment status.
+- Transaction parties.
+- Transaction amount.
+- Transaction status.
+
+### Content Security Policy
+
+Helmet applies a restrictive Content Security Policy to the JSON backend API.
+
+Because the API does not render browser content, it uses a restrictive `default-src 'none'` policy together with protections against framing, forms, objects and unwanted base URI behaviour.
+
+The React frontend will use a separate frontend-appropriate CSP.
+
+### Content-Type Enforcement
+
+API requests using `POST`, `PUT` or `PATCH` must use:
+
+```text
+Content-Type: application/json
+```
+
+Unsupported write-request content types are rejected with:
+
+```text
+415 Unsupported Media Type
+```
+
+### Rate Limiting
+
+Part 2 uses layered rate limiting:
+
+- General API request limiting.
+- Authentication request limiting.
+- Stricter failed-login limiting.
+- Booking creation limiting.
+
+This reduces automated abuse and brute-force activity.
+
+### Sensitive Response Caching
+
+Authentication, Booking and financial Transaction routes return cache-control headers that prevent sensitive responses from being stored by normal HTTP caches.
+
+### Defence in Depth
+
+A typical protected Part 2 request passes through multiple controls:
+
+```text
+HTTPS
+→ Helmet / CSP
+→ CORS
+→ Rate Limiting
+→ Content-Type Validation
+→ Request Size Limit
+→ Unsafe MongoDB Key Detection
+→ Zod Validation / Sanitisation
+→ JWT Authentication
+→ Current MongoDB User Lookup
+→ Role-Based Access Control
+→ Resource Ownership
+→ Controller
+→ Mongoose
+→ MongoDB
+→ Controlled Response
+```
+
+No single mechanism is relied upon as the application's only security control.
