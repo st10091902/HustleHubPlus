@@ -1537,4 +1537,318 @@ a {
     0 18px 42px
     rgba(35, 44, 70, 0.09);
 }
+
+/* ===============================
+   Freelancer Gig Management
+   =============================== */
+
+.form-page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+
+  margin-bottom: 35px;
+}
+
+.form-page-header h1 {
+  margin:
+    0 0 12px;
+
+  font-size: clamp(
+    2.3rem,
+    5vw,
+    4rem
+  );
+
+  letter-spacing: -0.045em;
+}
+
+.form-page-header p {
+  margin: 0;
+
+  color: #667085;
+
+  font-size: 1.02rem;
+}
+
+.gig-form-card {
+  max-width: 800px;
+
+  padding: 32px;
+
+  border: 1px solid #e1e6ed;
+  border-radius: 18px;
+
+  background: white;
+
+  box-shadow:
+    0 16px 45px
+    rgba(35, 44, 70, 0.06);
+}
+
+.gig-form {
+  display: grid;
+  gap: 22px;
+}
+
+.gig-form textarea {
+  resize: vertical;
+}
+
+.gig-form-row {
+  display: grid;
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 18px;
+}
+
+.toggle-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 16px;
+
+  border: 1px solid #e1e6ed;
+  border-radius: 10px;
+
+  background: #fafbfc;
+
+  cursor: pointer;
+}
+
+.toggle-field input {
+  width: 18px;
+  height: 18px;
+
+  margin-top: 2px;
+
+  accent-color: #6366f1;
+}
+
+.toggle-field strong {
+  display: block;
+
+  color: #344054;
+
+  font-size: 0.9rem;
+}
+
+.toggle-field small {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #7d8799;
+
+  font-size: 0.78rem;
+}
+
+.gig-form-submit {
+  width: fit-content;
+
+  min-width: 160px;
+
+  border: 0;
+}
+
+.management-alert {
+  margin:
+    0 0 24px;
+}
+
+.management-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 22px;
+}
+
+.management-card {
+  padding: 25px;
+
+  border: 1px solid #e1e6ed;
+  border-radius: 16px;
+
+  background: white;
+
+  box-shadow:
+    0 12px 35px
+    rgba(35, 44, 70, 0.05);
+}
+
+.management-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 15px;
+}
+
+.management-status {
+  display: inline-flex;
+  align-items: center;
+
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.management-status::before {
+  content: "";
+
+  width: 7px;
+  height: 7px;
+
+  margin-right: 6px;
+
+  border-radius: 50%;
+}
+
+.status-active {
+  color: #16803f;
+}
+
+.status-active::before {
+  background: #22c55e;
+}
+
+.status-inactive {
+  color: #8a6670;
+}
+
+.status-inactive::before {
+  background: #94a3b8;
+}
+
+.management-card h2 {
+  margin:
+    20px 0 10px;
+
+  font-size: 1.25rem;
+}
+
+.management-description {
+  display: -webkit-box;
+  overflow: hidden;
+
+  min-height: 72px;
+
+  margin:
+    0 0 24px;
+
+  color: #667085;
+
+  line-height: 1.65;
+
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.management-meta {
+  display: grid;
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 12px;
+
+  margin-bottom: 22px;
+}
+
+.management-meta > div {
+  padding: 14px;
+
+  border-radius: 10px;
+
+  background: #f7f8fb;
+}
+
+.management-meta span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #98a2b3;
+
+  font-size: 0.7rem;
+}
+
+.management-meta strong {
+  color: #344054;
+
+  font-size: 0.9rem;
+}
+
+.management-actions {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 10px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid #edf0f4;
+}
+
+.management-button {
+  width: 100%;
+
+  padding:
+    0 12px;
+
+  border-radius: 9px;
+
+  font-size: 0.82rem;
+}
+
+.button-danger {
+  border:
+    1px solid #fecaca;
+
+  background: #fff5f5;
+  color: #b42318;
+}
+
+.button-danger:hover {
+  background: #fef2f2;
+}
+
+.button-danger:disabled,
+.management-button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+
+  transform: none;
+}
+
+@media (
+  max-width: 850px
+) {
+  .management-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (
+  max-width: 650px
+) {
+  .form-page-header {
+    display: block;
+  }
+
+  .form-page-header .button {
+    margin-top: 22px;
+  }
+
+  .gig-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .management-actions {
+    grid-template-columns: 1fr;
+  }
+}
 }

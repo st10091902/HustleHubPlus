@@ -2093,3 +2093,53 @@ The React application does not determine whether a Gig is publicly available. Th
 User-controlled Gig content is rendered through normal React JSX output and `dangerouslySetInnerHTML` is not used.
 
 This complements the backend plain-text sanitisation introduced during Part 2 security hardening.
+
+## Freelancer Gig Management
+
+Authenticated Freelancers can manage their marketplace catalogue through the React frontend.
+
+The Gig management interface supports:
+
+- Viewing all owned Gigs.
+- Creating new Gigs.
+- Editing owned Gigs.
+- Activating listings.
+- Deactivating listings.
+- Permanently deleting owned Gigs.
+- Viewing both active and inactive Gigs.
+
+The frontend communicates with:
+
+```text
+GET    /api/gigs/mine
+POST   /api/gigs
+PUT    /api/gigs/:id
+DELETE /api/gigs/:id
+```
+
+### Ownership Security
+
+Gig management is protected at multiple layers.
+
+React restricts the management pages to authenticated `FREELANCER` accounts.
+
+The Express backend independently verifies:
+
+```text
+Valid JWT
+→ Current MongoDB user
+→ FREELANCER role
+→ Gig ownership
+```
+
+A Freelancer cannot modify or delete another Freelancer's Gig even if they manually send the API request.
+
+The Gig owner is never supplied by the React form. Ownership is assigned server-side using the authenticated user's MongoDB ID.
+
+### Active and Inactive Gigs
+
+The public Marketplace exposes only active Gigs.
+
+The Freelancer management interface retrieves all Gigs belonging to the authenticated Freelancer, including inactive listings.
+
+This allows Freelancers to temporarily hide services from the Marketplace without deleting them.

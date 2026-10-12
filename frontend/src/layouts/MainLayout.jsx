@@ -65,6 +65,14 @@ function MainLayout() {
 
             {isAuthenticated ? (
               <>
+                {user.role ===
+                  "FREELANCER" && (
+                  <NavLink
+                    to="/freelancer/gigs"
+                  >
+                    My Gigs
+                  </NavLink>
+                )}
                 <NavLink
                   to={
                     dashboardPath

@@ -34,7 +34,10 @@ function ClientDashboardPage() {
 
       <div className="dashboard-grid">
 
-        <article className="dashboard-card">
+        <Link
+          to="/marketplace"
+          className="dashboard-card dashboard-card-link"
+        >
 
           <span className="dashboard-icon">
             🔎
@@ -50,7 +53,7 @@ function ClientDashboardPage() {
             Freelancers.
           </p>
 
-        </article>
+        </Link>
 
         <article className="dashboard-card">
 

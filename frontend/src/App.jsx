@@ -19,6 +19,9 @@ import FreelancerDashboardPage from "./pages/FreelancerDashboardPage";
 import ForbiddenPage from "./pages/ForbiddenPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import GigDetailsPage from "./pages/GigDetailsPage";
+import FreelancerGigsPage from "./pages/FreelancerGigsPage";
+import CreateGigPage from "./pages/CreateGigPage";
+import EditGigPage from "./pages/EditGigPage";
 
 function App() {
   return (
@@ -114,6 +117,27 @@ function App() {
                 path="/freelancer/dashboard"
                 element={
                   <FreelancerDashboardPage />
+                }
+              />
+
+              <Route
+                path="/freelancer/gigs"
+                element={
+                  <FreelancerGigsPage />
+                }
+              />
+
+              <Route
+                path="/freelancer/gigs/create"
+                element={
+                  <CreateGigPage />
+                }
+              />
+
+              <Route
+                path="/freelancer/gigs/:id/edit"
+                element={
+                  <EditGigPage />
                 }
               />
 

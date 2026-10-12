@@ -2,6 +2,10 @@ import {
   useAuth
 } from "../context/AuthContext";
 
+import {
+  Link
+} from "react-router-dom";
+
 function FreelancerDashboardPage() {
   const {
     user
@@ -29,7 +33,10 @@ function FreelancerDashboardPage() {
 
       <div className="dashboard-grid">
 
-        <article className="dashboard-card">
+        <Link
+          to="/freelancer/gigs"
+          className="dashboard-card dashboard-card-link"
+        >
 
           <span className="dashboard-icon">
             💼
@@ -44,7 +51,7 @@ function FreelancerDashboardPage() {
             marketplace services.
           </p>
 
-        </article>
+        </Link>
 
         <article className="dashboard-card">
 
