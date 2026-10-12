@@ -2053,3 +2053,43 @@ Part 2 uses `sessionStorage` to integrate with the existing Bearer-token authent
 Unlike `localStorage`, the token does not persist indefinitely across browser sessions. However, `sessionStorage` remains accessible to JavaScript and therefore depends on strong XSS controls.
 
 HustleHub+ reduces this risk using backend HTML sanitisation, React's normal JSX output escaping, a restrictive security design, and by avoiding `dangerouslySetInnerHTML` for user-controlled content.
+
+## Marketplace Frontend
+
+The React frontend retrieves active Gig data from the Express API and displays it through the HustleHub+ Marketplace.
+
+Marketplace data is loaded using:
+
+```text
+GET /api/gigs
+```
+
+Individual active Gigs are retrieved using:
+
+```text
+GET /api/gigs/:id
+```
+
+The Marketplace supports:
+
+- Active Gig cards.
+- Freelancer display information.
+- ZAR price formatting.
+- Delivery-time display.
+- Search by Gig title, description, category and Freelancer.
+- Category filtering.
+- Loading states.
+- Controlled API error states.
+- Empty marketplace handling.
+- Individual Gig detail pages.
+- Role-aware booking prompts.
+
+Only Gigs marked as active by the backend appear in the public Marketplace.
+
+### Marketplace Security
+
+The React application does not determine whether a Gig is publicly available. The Express API independently restricts public marketplace queries to active Gigs.
+
+User-controlled Gig content is rendered through normal React JSX output and `dangerouslySetInnerHTML` is not used.
+
+This complements the backend plain-text sanitisation introduced during Part 2 security hardening.
