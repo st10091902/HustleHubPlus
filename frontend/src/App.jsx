@@ -18,6 +18,7 @@ import ClientDashboardPage from "./pages/ClientDashboardPage";
 import FreelancerDashboardPage from "./pages/FreelancerDashboardPage";
 import ForbiddenPage from "./pages/ForbiddenPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import GigDetailsPage from "./pages/GigDetailsPage";
 
 function App() {
   return (
@@ -38,6 +39,13 @@ function App() {
             path="/marketplace"
             element={
               <MarketplacePage />
+            }
+          />
+
+          <Route
+            path="/marketplace/:id"
+            element={
+              <GigDetailsPage />
             }
           />
 
