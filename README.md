@@ -1191,7 +1191,7 @@ https://github.com/st10091902/HustleHubPlus.git
 Part 2 demonstration:
 
 ```text
-<INSERT-YOUTUBE-VIDEO-URL>
+Unable to upload to YouTube. Video is uploaded to POE Part 2 ARC submission link.
 ```
 
 ---
