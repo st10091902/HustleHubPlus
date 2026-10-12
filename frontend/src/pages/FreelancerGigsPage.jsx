@@ -41,35 +41,46 @@ function FreelancerGigsPage() {
     setActionId
   ] = useState(null);
 
-  const loadGigs =
+
+  useEffect(() => {
+  let active = true;
+
+  const loadInitialGigs =
     async () => {
       try {
-        setLoading(true);
-        setError("");
-
         const response =
           await getMyGigs();
 
-        setGigs(
-          response.gigs || []
-        );
+        if (active) {
+          setGigs(
+            response.gigs ||
+            []
+          );
+        }
       } catch (
         requestError
       ) {
-        setError(
-          getApiError(
-            requestError,
-            "Unable to load your Gigs."
-          )
-        );
+        if (active) {
+          setError(
+            getApiError(
+              requestError,
+              "Unable to load your Gigs."
+            )
+          );
+        }
       } finally {
-        setLoading(false);
+        if (active) {
+          setLoading(false);
+        }
       }
     };
 
-  useEffect(() => {
-    loadGigs();
-  }, []);
+  loadInitialGigs();
+
+  return () => {
+    active = false;
+  };
+}, []);
 
   const handleToggleActive =
     async (gig) => {

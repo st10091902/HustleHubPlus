@@ -1,5 +1,4 @@
 import {
-  useEffect,
   useState
 } from "react";
 
@@ -10,51 +9,38 @@ function GigForm({
   submitLabel
 }) {
   const [
-    formData,
-    setFormData
-  ] = useState({
-    title: "",
-    description: "",
-    category: "",
-    price: "",
-    deliveryDays: "",
-    isActive: true
-  });
+  formData,
+  setFormData
+] = useState(() => ({
+  title:
+    initialValues?.title ||
+    "",
+
+  description:
+    initialValues?.description ||
+    "",
+
+  category:
+    initialValues?.category ||
+    "",
+
+  price:
+    initialValues?.price ??
+    "",
+
+  deliveryDays:
+    initialValues?.deliveryDays ??
+    "",
+
+  isActive:
+    initialValues?.isActive ??
+    true
+}));
 
   const [
     error,
     setError
   ] = useState("");
-
-  useEffect(() => {
-    if (initialValues) {
-      setFormData({
-        title:
-          initialValues.title ||
-          "",
-
-        description:
-          initialValues.description ||
-          "",
-
-        category:
-          initialValues.category ||
-          "",
-
-        price:
-          initialValues.price ??
-          "",
-
-        deliveryDays:
-          initialValues.deliveryDays ??
-          "",
-
-        isActive:
-          initialValues.isActive ??
-          true
-      });
-    }
-  }, [initialValues]);
 
   const handleChange =
     (event) => {

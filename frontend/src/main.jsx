@@ -10,7 +10,7 @@ import App from "./App";
 
 import {
   AuthProvider
-} from "./context/AuthContext";
+} from "./context/AuthContext.jsx";
 
 import "./styles/global.css";
 

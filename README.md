@@ -2289,3 +2289,50 @@ Financial endpoints are restricted to authenticated Freelancer accounts.
 Clients cannot access Freelancer income summaries or Freelancer Transaction histories.
 
 Each Freelancer sees only financial records associated with their own MongoDB user ID.
+
+## Automated Frontend Testing
+
+Part 2 includes automated React frontend testing using:
+
+- Vitest
+- React Testing Library
+- Testing Library DOM
+- Testing Library User Event
+- Jest DOM matchers
+- jsdom
+
+Tests can be executed from the `frontend` directory using:
+
+```bash
+npm test
+```
+
+Development watch mode is available using:
+
+```bash
+npm run test:watch
+```
+
+### Current Frontend Test Coverage
+
+The automated suite verifies important component rendering and user interactions, including:
+
+- Marketplace Gig-card rendering.
+- Freelancer Gig-form submission.
+- Marketplace API-data rendering.
+- Marketplace search interaction.
+- Successful Client login.
+- JWT placement in session storage after login.
+- Controlled invalid-login errors.
+- Registration password-confirmation validation.
+- Role-based frontend route protection.
+
+API calls are mocked where appropriate so frontend component behaviour can be tested independently from the live Express server.
+
+Frontend route tests do not replace backend security testing. Express independently enforces JWT authentication, Role-Based Access Control and resource ownership.
+
+The production frontend can also be verified with:
+
+```bash
+npm run build
+```

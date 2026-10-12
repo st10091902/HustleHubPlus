@@ -1,19 +1,16 @@
 import {
-  createContext,
-  useContext,
   useEffect,
   useMemo,
   useState
 } from "react";
+
+import AuthContext from "./authContextObject";
 
 import {
   getCurrentUser,
   loginUser,
   registerUser
 } from "../api/authService";
-
-const AuthContext =
-  createContext(null);
 
 const TOKEN_KEY =
   "hustlehub_token";
@@ -150,19 +147,4 @@ export function AuthProvider({
       {children}
     </AuthContext.Provider>
   );
-}
-
-export function useAuth() {
-  const context =
-    useContext(
-      AuthContext
-    );
-
-  if (!context) {
-    throw new Error(
-      "useAuth must be used inside AuthProvider."
-    );
-  }
-
-  return context;
 }
