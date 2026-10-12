@@ -2206,3 +2206,86 @@ GET /api/bookings/:id
 ```
 
 React restricts these pages to Client accounts, while the Express backend independently enforces JWT authentication, Role-Based Access Control and booking participation.
+
+## Freelancer Bookings and Financial Dashboard
+
+Authenticated Freelancers can view bookings received for their own Gigs and monitor marketplace income through the React frontend.
+
+### Received Bookings
+
+The Freelancer interface uses:
+
+```text
+GET /api/bookings/freelancer
+```
+
+to retrieve only Bookings associated with the authenticated Freelancer.
+
+The interface displays:
+
+- Gig.
+- Client name.
+- Client email.
+- Client requirements.
+- Confirmed amount.
+- Booking status.
+- Simulated payment status.
+- Booking date.
+
+Individual booking access is also protected by backend participation checks.
+
+### Financial Dashboard
+
+The Freelancer financial dashboard uses:
+
+```text
+GET /api/transactions/income
+GET /api/transactions/freelancer
+```
+
+to display:
+
+- Total completed marketplace income.
+- Number of completed Transactions.
+- Estimated tax.
+- Estimated income after tax.
+- Transaction history.
+- Client information.
+- Transaction references.
+- Transaction status.
+
+Freelancer income is not entered manually. It is calculated from completed financial Transactions created automatically when Clients book Gigs.
+
+### Estimated Tax
+
+HustleHub+ includes a simplified configurable tax estimate for academic demonstration.
+
+The development configuration uses:
+
+```env
+ESTIMATED_TAX_RATE=0.15
+```
+
+The calculation is:
+
+```text
+Estimated Tax =
+Completed Marketplace Income × Estimated Tax Rate
+```
+
+and:
+
+```text
+Estimated After-Tax Income =
+Completed Marketplace Income - Estimated Tax
+```
+
+This figure is an illustrative estimate only and is not intended to represent an official SARS assessment or financial advice.
+
+### Financial Access Control
+
+Financial endpoints are restricted to authenticated Freelancer accounts.
+
+Clients cannot access Freelancer income summaries or Freelancer Transaction histories.
+
+Each Freelancer sees only financial records associated with their own MongoDB user ID.

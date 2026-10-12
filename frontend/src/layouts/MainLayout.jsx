@@ -75,6 +75,24 @@ function MainLayout() {
                 )}
 
                 {user.role ===
+                  "FREELANCER" && (
+                  <NavLink
+                    to="/freelancer/bookings"
+                  >
+                    Bookings
+                  </NavLink>
+                )}
+
+                {user.role ===
+                  "FREELANCER" && (
+                  <NavLink
+                    to="/freelancer/finance"
+                  >
+                    Finance
+                  </NavLink>
+                )}
+
+                {user.role ===
                   "CLIENT" && (
                   <NavLink
                     to="/client/bookings"
@@ -82,7 +100,7 @@ function MainLayout() {
                     My Bookings
                   </NavLink>
                 )}
-                
+
                 <NavLink
                   to={
                     dashboardPath

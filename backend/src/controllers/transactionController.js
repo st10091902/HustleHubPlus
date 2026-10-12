@@ -130,6 +130,43 @@ const getFreelancerIncome = async (
             transactionCount: 0
           };
 
+    /*
+     * Simplified academic tax estimate.
+     *
+     * This is not intended to represent
+     * an official SARS tax calculation.
+     */
+    const configuredTaxRate =
+      Number(
+        process.env
+          .ESTIMATED_TAX_RATE
+      );
+
+    const taxRate =
+      Number.isFinite(
+        configuredTaxRate
+      ) &&
+      configuredTaxRate >= 0 &&
+      configuredTaxRate <= 1
+        ? configuredTaxRate
+        : 0.15;
+
+    const estimatedTax =
+      Math.round(
+        summary.totalIncome *
+          taxRate *
+          100
+      ) / 100;
+
+    const estimatedAfterTaxIncome =
+      Math.round(
+        (
+          summary.totalIncome -
+          estimatedTax
+        ) *
+          100
+      ) / 100;
+
     return res.status(200).json({
       success: true,
 
@@ -140,7 +177,14 @@ const getFreelancerIncome = async (
           summary.totalIncome,
 
         completedTransactions:
-          summary.transactionCount
+          summary.transactionCount,
+
+        estimatedTaxRate:
+          taxRate,
+
+        estimatedTax,
+
+        estimatedAfterTaxIncome
       }
     });
   } catch (error) {

@@ -53,7 +53,10 @@ function FreelancerDashboardPage() {
 
         </Link>
 
-        <article className="dashboard-card">
+        <Link
+          to="/freelancer/bookings"
+          className="dashboard-card dashboard-card-link"
+        >
 
           <span className="dashboard-icon">
             📦
@@ -68,9 +71,12 @@ function FreelancerDashboardPage() {
             booked your services.
           </p>
 
-        </article>
+        </Link>
 
-        <article className="dashboard-card">
+        <Link
+          to="/freelancer/finance"
+          className="dashboard-card dashboard-card-link"
+        >
 
           <span className="dashboard-icon">
             📈
@@ -81,11 +87,11 @@ function FreelancerDashboardPage() {
           </h2>
 
           <p>
-            Track completed
-            marketplace earnings.
+            Track marketplace earnings,
+            transactions and estimated tax.
           </p>
 
-        </article>
+        </Link>
 
       </div>
 

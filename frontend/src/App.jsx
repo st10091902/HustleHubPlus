@@ -25,6 +25,9 @@ import EditGigPage from "./pages/EditGigPage";
 import BookGigPage from "./pages/BookGigPage";
 import ClientBookingsPage from "./pages/ClientBookingsPage";
 import ClientBookingDetailsPage from "./pages/ClientBookingDetailsPage";
+import FreelancerBookingsPage from "./pages/FreelancerBookingsPage";
+import FreelancerBookingDetailsPage from "./pages/FreelancerBookingDetailsPage";
+import FreelancerFinancePage from "./pages/FreelancerFinancePage";
 
 function App() {
   return (
@@ -162,6 +165,27 @@ function App() {
                 path="/freelancer/gigs/:id/edit"
                 element={
                   <EditGigPage />
+                }
+              />
+
+              <Route
+                path="/freelancer/bookings"
+                element={
+                  <FreelancerBookingsPage />
+                }
+              />
+
+              <Route
+                path="/freelancer/bookings/:id"
+                element={
+                  <FreelancerBookingDetailsPage />
+                }
+              />
+
+              <Route
+                path="/freelancer/finance"
+                element={
+                  <FreelancerFinancePage />
                 }
               />
 

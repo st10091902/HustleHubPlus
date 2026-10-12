@@ -32,6 +32,20 @@ export const getClientBookings =
   };
 
 /**
+ * Return bookings received by the
+ * authenticated Freelancer.
+ */
+export const getFreelancerBookings =
+  async () => {
+    const response =
+      await apiClient.get(
+        "/bookings/freelancer"
+      );
+
+    return response.data;
+  };
+
+/**
  * Return one Booking when the authenticated
  * user participates in it.
  */
